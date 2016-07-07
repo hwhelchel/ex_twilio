@@ -43,7 +43,7 @@ defmodule ExTwilio.Api do
   """
   @spec find(atom, String.t | nil, list) :: Parser.success | Parser.error
   def find(module, sid, query_options \\ [], http_options \\ []) do
-    Url.build_url(module, sid, query_options, http_options)
+    Url.build_url(module, sid, query_options)
     |> Api.get(http_options)
     |> Parser.parse(module)
   end
@@ -61,7 +61,7 @@ defmodule ExTwilio.Api do
   """
   @spec create(atom, list, list) :: Parser.success | Parser.error
   def create(module, data, query_options \\ [], http_options \\ []) do
-    Url.build_url(module, nil, query_options, http_options)
+    Url.build_url(module, nil, query_options)
     |> Api.post(Dict.merge([body: data], http_options))
     |> Parser.parse(module)
   end
@@ -82,7 +82,7 @@ defmodule ExTwilio.Api do
   def update(module, sid, data, query_options, http_options) when is_binary(sid), do: do_update(module, sid, data, query_options, http_options)
   def update(module, %{sid: sid}, data, query_options, http_options),             do: do_update(module, sid, data, query_options, http_options)
   defp do_update(module, sid, data, query_options, http_options) do
-    Url.build_url(module, sid, query_options, http_options)
+    Url.build_url(module, sid, query_options)
     |> Api.post(Dict.merge([body: data], http_options))
     |> Parser.parse(module)
   end
@@ -103,7 +103,7 @@ defmodule ExTwilio.Api do
   def destroy(module, sid, query_options, http_options) when is_binary(sid), do: do_destroy(module, sid, query_options, http_options)
   def destroy(module, %{sid: sid}, query_options, http_options),             do: do_destroy(module, sid, query_options, http_options)
   defp do_destroy(module, sid, query_options, http_options) do
-    Url.build_url(module, sid, query_options, http_options)
+    Url.build_url(module, sid, query_options)
     |> Api.delete(http_options)
     |> Parser.parse(module)
   end
