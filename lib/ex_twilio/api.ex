@@ -41,7 +41,7 @@ defmodule ExTwilio.Api do
       ExTwilio.Api.find(ExTwilio.Call, "nonexistent sid")
       {:error, "The requested resource couldn't be found...", 404}
   """
-  @spec find(atom, String.t | nil, list) :: Parser.success | Parser.error
+  @spec find(atom, String.t | nil, list, list) :: Parser.success | Parser.error
   def find(module, sid, query_options \\ [], http_options \\ []) do
     Url.build_url(module, sid, query_options)
     |> Api.get(http_options)
@@ -59,7 +59,7 @@ defmodule ExTwilio.Api do
       ExTwilio.Api.create(ExTwilio.Call, [])
       {:error, "No 'To' number is specified", 400}
   """
-  @spec create(atom, list, list) :: Parser.success | Parser.error
+  @spec create(atom, list, list, list) :: Parser.success | Parser.error
   def create(module, data, query_options \\ [], http_options \\ []) do
     Url.build_url(module, nil, query_options)
     |> Api.post(Dict.merge([body: data], http_options))
@@ -77,7 +77,7 @@ defmodule ExTwilio.Api do
       ExTwilio.Api.update(ExTwilio.Call, "nonexistent", [status: "complete"])
       {:error, "The requested resource ... was not found", 404}
   """
-  @spec update(atom, String.t, list, list) :: Parser.success | Parser.error
+  @spec update(atom, String.t, list, list, list) :: Parser.success | Parser.error
   def update(module, sid, data, query_options \\ [], http_options \\ [])
   def update(module, sid, data, query_options, http_options) when is_binary(sid), do: do_update(module, sid, data, query_options, http_options)
   def update(module, %{sid: sid}, data, query_options, http_options),             do: do_update(module, sid, data, query_options, http_options)
@@ -98,7 +98,7 @@ defmodule ExTwilio.Api do
       ExTwilio.Api.destroy(ExTwilio.Call, "nonexistent")
       {:error, "The requested resource ... was not found", 404}
   """
-  @spec destroy(atom, String.t) :: Parser.success_delete | Parser.error
+  @spec destroy(atom, String.t, list, list) :: Parser.success_delete | Parser.error
   def destroy(module, sid, query_options \\ [], http_options \\ [])
   def destroy(module, sid, query_options, http_options) when is_binary(sid), do: do_destroy(module, sid, query_options, http_options)
   def destroy(module, %{sid: sid}, query_options, http_options),             do: do_destroy(module, sid, query_options, http_options)
