@@ -41,32 +41,32 @@ defmodule ExTwilio.Resource do
       end
 
       if :stream in import_functions do
-        def stream(options \\ []), do: ResultStream.new(__MODULE__, options)
+        def stream(query_options \\ [], http_options \\ []), do: ResultStream.new(__MODULE__, query_options)
       end
 
       if :all in import_functions do
-        @spec all(list) :: [map]
-        def all(options \\ []), do: stream(options) |> Enum.into([])
+        @spec all(list, list) :: [map]
+        def all(query_options \\ [], http_options \\ []), do: stream(query_options) |> Enum.into([])
       end
 
       if :find in import_functions do
-        @spec find(String.t | nil, list) :: Parser.parsed_list_response
-        def find(sid, options \\ []), do: Api.find(__MODULE__, sid, options)
+        @spec find(String.t | nil, list, list) :: Parser.parsed_list_response
+        def find(sid, query_options \\ [], http_options \\ []), do: Api.find(__MODULE__, sid, query_options, http_options)
       end
 
       if :create in import_functions do
-        @spec create(list, list) :: Parser.parsed_response
-        def create(data, options \\ []), do: Api.create(__MODULE__, data, options)
+        @spec create(list, list, list) :: Parser.parsed_response
+        def create(data, query_options \\ [], http_options \\ []), do: Api.create(__MODULE__, data, query_options, http_options)
       end
 
       if :update in import_functions do
-        @spec update(String.t, list, list) :: Parser.parsed_response
-        def update(sid, data, options \\ []), do: Api.update(__MODULE__, sid, data, options)
+        @spec update(String.t, list, list, list) :: Parser.parsed_response
+        def update(sid, data, query_options \\ [], http_options \\ []), do: Api.update(__MODULE__, sid, data, query_options, http_options)
       end
 
       if :destroy in import_functions do
-        @spec destroy(String.t, list) :: Parser.success_delete | Parser.error
-        def destroy(sid, options \\ []), do: Api.destroy(__MODULE__, sid, options)
+        @spec destroy(String.t, list, list) :: Parser.success_delete | Parser.error
+        def destroy(sid, query_options \\ [], http_options \\ []), do: Api.destroy(__MODULE__, sid, query_options, http_options)
       end
 
       @doc """
